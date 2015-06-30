@@ -35,9 +35,22 @@ public class Etage
 		this.ruf[richtung] = false;
 		return true;
 	}
+	/** up  down  return
+	 * 	0   0     0
+	 * 	0   1     1
+	 * 	1   0     2
+	 * 	1   1     3
+	 */
+	public int getStatus()
+	{
+		int status = 0;
+		status += this.ruf[0] ? 2 : 0;
+		status += this.ruf[1] ? 1 : 0;
+		return status;
+	}
 	public String toString()
-{
-	return this.beschr;
+	{
+		return this.beschr;
 	}
 }
 

@@ -2,13 +2,13 @@ package LiftSim;
 
 public class Simulation
 {
-	Lift lift;
+	private Lift lift;
 	public Simulation(int anzEtagen)
 	{
 		  this.lift = new Lift(anzEtagen);
 	}
-	public String toString()
+	public void printStatus()
 	{
-		return 
+		int[] etagenStatus = this.lift.getEtagenStatus();
 	}
 }
