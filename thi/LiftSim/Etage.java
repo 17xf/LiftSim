@@ -7,9 +7,7 @@ public class Etage
     */
 	private boolean[] ruf;
 
-	/* 1 = ganz oben
-	 * 0 = mitte
-	 * -1 ganz unten
+	/* 1 = ganz oben, 0 = mitte, -1 ganz unten
 	 */
 	private int ext;
 
@@ -18,7 +16,6 @@ public class Etage
 	/** Beschreibung der Etage z.b.: Ergdeschoß, Keller...
 	 */
 	private String beschr;            
-
 	public Etage(int pos, int ext, String beschr)
 	{
 		this.ruf  = new boolean[2];
@@ -39,8 +36,8 @@ public class Etage
 		return true;
 	}
 	public String toString()
-	{
-		return this.beschr;
+{
+	return this.beschr;
 	}
 }
 
