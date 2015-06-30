@@ -10,7 +10,7 @@ public class Lift
 	{
 		if (anzEtagen<2)
 			return;
-		this.etage = new Etage[anzEtagen-1];
+		this.etage = new Etage[anzEtagen];
 		this.anzEtagen = anzEtagen;
 
 		this.etage[0] = new Etage(0,-1, "Unten");
