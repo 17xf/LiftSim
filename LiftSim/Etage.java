@@ -25,9 +25,9 @@ public class Etage
 		this.pos    = pos;
 		this.beschr = beschr;
 	}
-	public boolean setzeRuf(int richtung)
+	public boolean setCall(int direction)
 	{
-		this.ruf[richtung] = true;
+		this.ruf[direction] = true;
 		return true;
 	}
 	public boolean entfRuf(int richtung)

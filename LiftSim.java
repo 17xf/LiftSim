@@ -1,3 +1,5 @@
+/*@file: LiftSim.java */
+
 import LiftSim.*;
 public class LiftSim
 {
@@ -5,5 +7,6 @@ public class LiftSim
 	{
 		Simulation sim = new Simulation(4);
 		sim.printStatus();
+		sim.lift.setCall();
 	}
 }

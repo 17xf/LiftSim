@@ -1,8 +1,9 @@
+/*@file: LiftSim/Lift.java */
 package LiftSim;
 
 public class Lift
 {
-	private Etage[]    etage;
+	private Etage[]    floors;
 	private int        anzEtagen;
 	private Wuensche[] wuensche;
 
@@ -10,23 +11,33 @@ public class Lift
 	{
 		if (anzEtagen<2)
 			return;
-		this.etage = new Etage[anzEtagen];
+		this.floors = new Etage[anzEtagen];
 		this.anzEtagen = anzEtagen;
 
-		this.etage[0] = new Etage(0,-1, "Unten");
+		this.floors[0] = new Etage(0,-1, "Unten");
 
 		for(int i=1; i<anzEtagen-1; i++)
 		{
-			this.etage[i] = new Etage(i, 0, "Etage");
+			this.floors[i] = new Etage(i, 0, "Etage");
 		}
-		this.etage[anzEtagen-1] = new Etage(anzEtagen-1, 1, "Oben");
+		this.floors[anzEtagen-1] = new Etage(anzEtagen-1, 1, "Oben");
 	}
 	public int[] getEtagenStatus()
 	{
 		int[] s = new int[this.anzEtagen];
 		for(int i = 0; i<this.anzEtagen; i++){
-			s[i] = this.etage[i].getStatus();
+			s[i] = this.floors[i].getStatus();
 		}
 		return s;
+	}
+	/**
+	 * fnr floor Number
+	 * dir = {0|1}
+	 * 0 = hoch
+	 * 1 = runter
+	 */
+	public void newCall(int fnr, int dir)
+	{
+		floors[fnr].setCall(dir);
 	}
 }
