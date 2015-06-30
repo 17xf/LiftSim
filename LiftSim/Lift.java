@@ -3,41 +3,33 @@ package LiftSim;
 
 public class Lift
 {
-	private Etage[]    floors;
-	private int        anzEtagen;
+	public Etage[]     floors;
+	private int        position;
+	private int        direction;
+	private int        fcount;
 	private Wuensche[] wuensche;
 
-	public Lift( int anzEtagen)
+	public Lift( int fcount)
 	{
-		if (anzEtagen<2)
+		this.fcount = fcount;
+
+		if (this.fcount<2)
 			return;
-		this.floors = new Etage[anzEtagen];
-		this.anzEtagen = anzEtagen;
+
+		this.position = 0;
+		this.floors = new Etage[fcount];
 
 		this.floors[0] = new Etage(0,-1, "Unten");
 
-		for(int i=1; i<anzEtagen-1; i++)
+		for(int i=1; i<fcount-1; i++)
 		{
 			this.floors[i] = new Etage(i, 0, "Etage");
 		}
-		this.floors[anzEtagen-1] = new Etage(anzEtagen-1, 1, "Oben");
+		this.floors[fcount-1] = new Etage(fcount-1, 1, "Oben");
 	}
-	public int[] getEtagenStatus()
+	public Lift( int fcount, int spos)
 	{
-		int[] s = new int[this.anzEtagen];
-		for(int i = 0; i<this.anzEtagen; i++){
-			s[i] = this.floors[i].getStatus();
-		}
-		return s;
-	}
-	/**
-	 * fnr floor Number
-	 * dir = {0|1}
-	 * 0 = hoch
-	 * 1 = runter
-	 */
-	public void newCall(int fnr, int dir)
-	{
-		floors[fnr].setCall(dir);
+		this(fcount);
+		this.position = spos;
 	}
 }

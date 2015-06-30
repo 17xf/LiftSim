@@ -2,8 +2,8 @@ package LiftSim;
 
 public class Etage
 {
-   /** ruf[0] hoch
-    *  ruf[1] runter
+   /** ruf[0] runter
+    *  ruf[1] hoch
     */
 	private boolean[] ruf;
 
@@ -25,28 +25,28 @@ public class Etage
 		this.pos    = pos;
 		this.beschr = beschr;
 	}
-	public boolean setCall(int direction)
+	public void setCall(int direction)
 	{
 		this.ruf[direction] = true;
-		return true;
 	}
-	public boolean entfRuf(int richtung)
+	public void entfRuf(int richtung)
 	{
 		this.ruf[richtung] = false;
-		return true;
 	}
-	/** up  down  return
-	 * 	0   0     0
-	 * 	0   1     1
-	 * 	1   0     2
-	 * 	1   1     3
+	/** down  up  return
+	 * 	0     0   = 0
+	 * 	0     1   = 1
+	 * 	1     0   = 2
+	 * 	1     1   = 3
+	 *
+	 * 	@return 0 = no call; 1 = up; 2 = down; 3 = both;
 	 */
-	public int getStatus()
+	public int getCall()
 	{
-		int status = 0;
-		status += this.ruf[0] ? 2 : 0;
-		status += this.ruf[1] ? 1 : 0;
-		return status;
+		int call = 0;
+		call += this.ruf[0] ? 2 : 0; // runter
+		call += this.ruf[1] ? 1 : 0; // hoch
+		return call;
 	}
 	public String toString()
 	{

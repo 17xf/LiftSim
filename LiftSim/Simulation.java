@@ -3,19 +3,43 @@ package LiftSim;
 public class Simulation
 {
 	private Lift lift;
-	private int  anzEtagen;
-	public Simulation(int anzEtagen)
+	private int  fcount;
+
+	public Simulation(int fcount)
 	{
-		  this.lift = new Lift(anzEtagen);
-		  this.anzEtagen = anzEtagen;
+		  this.lift = new Lift(fcount);
+		  this.fcount = fcount;
 	}
+
+	/**
+	 * @param fnr Etagennummer
+	 * @param dir Richtung: 0 = runter, 1 = hoch)
+	 */
+	public void newCall(int fnr, int dir )
+	{
+		this.lift.floors[fnr].setCall(dir);
+	}
+	/**
+	 * nur für das debuggen
+	 */
 	public void printStatus()
 	{
-		int[] etagenStatus;
-		//= new int[this.anzEtagen];
-		etagenStatus = this.lift.getEtagenStatus();
-		for (int i=this.anzEtagen-1; i>=0; i--){
-			System.out.println("Etage "+i+" Status: "+etagenStatus[i]);
+		int call;
+		String callStr;
+		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
+			call = this.lift.floors[fnr].getCall();
+			switch (call){
+				case 0: callStr = "keine Rufe";
+						break;
+				case 1: callStr = "nach oben";
+						break;
+				case 2: callStr = "nach unten";
+						break;
+				case 3: callStr = "in beide Richtungen";
+						break;
+				default: callStr = "NULL";
+			}
+			System.out.println("Etage " + fnr + " Status: (" + call + ") " + callStr);
 		}
 	}
 }
