@@ -7,11 +7,12 @@ public class Etage
     */
 	private boolean[] ruf;
 
+	private int       position;
+
 	/* 1 = ganz oben, 0 = mitte, -1 ganz unten
 	 */
 	private int ext;
 
-	private int pos;
 
 	/** Beschreibung der Etage z.b.: Ergdeschoß, Keller...
 	 */
@@ -22,7 +23,7 @@ public class Etage
 		this.ruf[0] = false;
 		this.ruf[1] = false;
 		this.ext    = ext;
-		this.pos    = pos;
+		this.position    = pos;
 		this.beschr = beschr;
 	}
 	public void setCall(int direction)

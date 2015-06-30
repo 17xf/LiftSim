@@ -19,6 +19,10 @@ public class Simulation
 	{
 		this.lift.floors[fnr].setCall(dir);
 	}
+	public boolean move(int dir)
+	{
+		return this.lift.move(dir);
+	}
 	/**
 	 * nur für das debuggen
 	 */
@@ -26,20 +30,23 @@ public class Simulation
 	{
 		int call;
 		String callStr;
+		String elev;
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
+			elev = this.lift.getPosition() == fnr ? "→ " : "  ";
 			call = this.lift.floors[fnr].getCall();
 			switch (call){
-				case 0: callStr = "keine Rufe";
+				case 0: callStr = "  ";
 						break;
-				case 1: callStr = "nach oben";
+				case 1: callStr = "↑ ";
 						break;
-				case 2: callStr = "nach unten";
+				case 2: callStr = " ↓";
 						break;
-				case 3: callStr = "in beide Richtungen";
+				case 3: callStr = "↑↓";
 						break;
-				default: callStr = "NULL";
+				default: callStr = "xx";
 			}
-			System.out.println("Etage " + fnr + " Status: (" + call + ") " + callStr);
+			System.out.println( elev + " " + fnr + " " + callStr);
+			//System.out.println("Etage " + fnr + " Status: (" + call + ") " + callStr);
 		}
 	}
 }

@@ -32,4 +32,19 @@ public class Lift
 		this(fcount);
 		this.position = spos;
 	}
+	public int getPosition()
+	{
+		return this.position;
+	}
+	/**
+	 * @param dir Richtung -N Runter; +N Hoch
+	 */
+	public boolean move(int dir)
+	{
+		int tmpPos = this.position + dir;
+		if (tmpPos < 0 || tmpPos > fcount-1)
+			return false;
+		this.position += dir;
+		return true;
+	}
 }
