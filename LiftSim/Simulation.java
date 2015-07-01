@@ -5,6 +5,8 @@ package LiftSim;
 
 public class Simulation
 {
+	public static final int POS_INSIDE = -1;
+
 	private Lift    elevator;
 	private Etage[] floors;
 	private int  fcount;
