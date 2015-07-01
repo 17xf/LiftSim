@@ -12,6 +12,9 @@ public class Etage
 
 	private int       position;
 
+	public static final int REL_TOP      =  1;
+	public static final int REL_MID      =  0;
+	public static final int REL_BOTTOM   = -1;
 	/**
 	 * Wo befindet sich die Etage? Ganz Oben? Unten? Dazwischen? 
 	 * Wäre nicht nötig wenn man eine Liste verwenden würden. 

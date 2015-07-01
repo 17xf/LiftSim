@@ -15,21 +15,18 @@ public class Simulation
 		this.elevator = new Lift(fcount);
 		this.fcount   = fcount;
 
-		/**
-		 * Es müssen mindestens 2 Etagen existieren
-		 */
-		if (this.fcount<2)
+		if (this.fcount<2) // Es müssen mindestens 2 Etagen existieren
 			return;
 
 		/**
-		 * Allociert Pletz für die Etagen und ruft deren Konstruktoren
+		 * Allociert Platz für die Etagen und ruft deren Konstruktoren
 		 * mit richtigen Paramatern auf.
 		 */
-		this.floors = new Etage[fcount];
-		this.floors[0] = new Etage(0,-1, "Unten");
+		this.floors    = new Etage[fcount];
+		this.floors[0] = new Etage(0,Etage.REL_BOTTOM, "Unten");
 		for (int fnr=1; fnr<this.fcount-1; fnr++)
-			this.floors[fnr] = new Etage(fnr, 0, "Etage");
-		this.floors[fcount-1] = new Etage(fcount-1, 1, "Oben");
+			this.floors[fnr] = new Etage(fnr, Etage.REL_MID, "Etage");
+		this.floors[fcount-1] = new Etage(fcount-1, Etage.REL_TOP, "Oben");
 	}
 
 	/**

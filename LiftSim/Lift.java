@@ -45,6 +45,10 @@ public class Lift
 	{
 		return this.position;
 	}
+	public static final int DIR_DOWN = -1;
+	public static final int DIR_UP   =  1;
+	public static final int DIR_STOP =  0;
+
 	/**
 	 * Ändert die Position des Liftes. 
 	 * @param dir Richtung -N Runter; +N Hoch
@@ -59,7 +63,13 @@ public class Lift
 		if (tmpPos < 0 || tmpPos > fcount-1)
 			return false;
 		this.position += dir;
+		this.direction = dir > 0 ? DIR_UP : dir == 0 ? DIR_STOP : DIR_DOWN;
 		return true;
+	}
+	public void doAction()
+	{
+
+
 	}
 	public boolean isOpen()
 	{
