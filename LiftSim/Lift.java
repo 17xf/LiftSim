@@ -8,6 +8,7 @@ public class Lift
 	private int        position;
 	private int        direction;
 	private int        fcount;
+	private int        load;
 	private boolean    open;
 
 	/**
@@ -19,7 +20,8 @@ public class Lift
 		this.fcount    = fcount;
 		this.position  = 0;
 		this.direction = 0;
-		this.open  = false;
+		this.open      = false;
+		this.load      = 0;
 
 		if (this.fcount<2)
 			return;
@@ -37,7 +39,7 @@ public class Lift
 
 	public boolean overload()
 	{
-		return false;
+		return this.load > 10 ? true : false;
 	}
 	public int getPosition()
 	{
@@ -58,5 +60,19 @@ public class Lift
 			return false;
 		this.position += dir;
 		return true;
+	}
+	public boolean isOpen()
+	{
+		return this.open;
+	}
+	public int goInside()
+	{
+		this.load += 1;
+		return Simulation.POS_INSIDE;
+	}
+	public int goOutside()
+	{
+		this.load -= 1;
+		return this.position;
 	}
 }

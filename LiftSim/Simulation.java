@@ -1,21 +1,19 @@
-/**
- * 
- */
 package LiftSim;
-
+import java.util.ArrayList;
 public class Simulation
 {
 	public static final int POS_INSIDE = -1;
 
-	private Lift    elevator;
-	private Etage[] floors;
+	private Lift      elevator;
+	private Etage[]   floors;
+	private ArrayList<Passenger> passenger;
 	private int  fcount;
 
 	public Simulation(int fcount)
 	{
+		passenger     = new ArrayList<Passenger>();
 		this.elevator = new Lift(fcount);
-
-		this.fcount = fcount;
+		this.fcount   = fcount;
 
 		/**
 		 * Es müssen mindestens 2 Etagen existieren
@@ -46,6 +44,10 @@ public class Simulation
 	{
 		return this.elevator.move(dir);
 	}
+	public void newPassenger(int spos, int dest)
+	{
+		this.passenger.add(new Passenger(spos, dest, this.elevator));
+	}
 	/**
 	 * nur für das debuggen
 	 */
@@ -54,7 +56,11 @@ public class Simulation
 		int call;
 		String callStr;
 		String elev;
+		String pashere = " ";
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
+			for(Passenger pas: this.passenger){
+				pashere = pas.getPosition() == fnr ? "@" : " ";
+			}
 			elev = this.elevator.getPosition() == fnr ? "→ " : "  ";
 			call = this.floors[fnr].getCall();
 			switch (call){
@@ -68,8 +74,7 @@ public class Simulation
 						break;
 				default: callStr = "xx";
 			}
-			System.out.println( elev + " " + fnr + " " + callStr);
-			//System.out.println("Etage " + fnr + " Status: (" + call + ") " + callStr);
+			System.out.println( elev + " " + fnr + " " + callStr + pashere + this.elevator.overload());
 		}
 	}
 }

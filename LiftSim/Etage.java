@@ -6,6 +6,8 @@ public class Etage
 	* call[0] runter
     * call[1] hoch
     */
+	public static final int DIR_DOWN = 0;
+	public static final int DIR_UP   = 1;
 	private boolean[] call;
 
 	private int       position;
@@ -34,8 +36,8 @@ public class Etage
 	{
 		this.call  = new boolean[2];
 
-		this.call[0]        = false;
-		this.call[1]        = false;
+		this.call[DIR_DOWN]        = false;
+		this.call[DIR_UP]          = false;
 
 		this.ext           = ext;
 		this.position      = pos;
@@ -61,6 +63,10 @@ public class Etage
 		this.call[direction] = false;
 	}
 
+	public static final int CALL_NONE = 0;
+	public static final int CALL_UP   = 1;
+	public static final int CALL_DOWN = 2;
+	public static final int CALL_BOTH = 3;
 	/**
 	 * Gibt den aktuellen Rufstatus zurück.
 	 *
@@ -74,9 +80,9 @@ public class Etage
 	 */
 	public int getCall()
 	{
-		int call = 0;
-		call += this.call[0] ? 2 : 0; // runter
-		call += this.call[1] ? 1 : 0; // hoch
+		int call = CALL_NONE;
+		call += this.call[DIR_DOWN] ? CALL_DOWN : CALL_NONE;
+		call += this.call[DIR_UP]   ? CALL_UP   : CALL_NONE;
 		return call;
 	}
 	/**

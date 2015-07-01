@@ -24,11 +24,13 @@ public class LiftSim
 			String test = c.readLine();
 			System.out.println("===================");
 			sim.printStatus();
+
 			/*sim.newCall(4, 1);
 			sim.newCall(0, 0);
 			sim.newCall(2, 0);
 			*/
 			sim.newCall(2, 1);
+			sim.newPassenger(3,4);
 			sim.move(+1);
 			//sim.run(1);
 			//sim.printStatus();
