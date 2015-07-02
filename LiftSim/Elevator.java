@@ -3,7 +3,7 @@
  */
 package LiftSim;
 
-public class Lift
+public class Elevator
 {
 	private int        position;
 	private int        direction;
@@ -15,7 +15,7 @@ public class Lift
 	 * Konstruktor
 	 * @param fcount Anzahl der Etagen
 	 */
-	public Lift( int fcount)
+	public Elevator( int fcount)
 	{
 		this.fcount    = fcount;
 		this.position  = 0;
@@ -31,7 +31,7 @@ public class Lift
 	 * @param fcount Anzahl der Etagen
 	 * @param spos   Startposition
 	 */
-	public Lift( int fcount, int spos)
+	public Elevator( int fcount, int spos)
 	{
 		this(fcount);
 		this.position = spos;
@@ -68,8 +68,6 @@ public class Lift
 	}
 	public void doAction()
 	{
-
-
 	}
 	public boolean isOpen()
 	{

@@ -4,7 +4,7 @@ public class Simulation
 {
 	public static final int POS_INSIDE = -1;
 
-	private Lift      elevator;
+	private Elevator      elevator;
 	private Etage[]   floors;
 	private ArrayList<Passenger> passenger;
 	private int  fcount;
@@ -12,7 +12,7 @@ public class Simulation
 	public Simulation(int fcount)
 	{
 		passenger     = new ArrayList<Passenger>();
-		this.elevator = new Lift(fcount);
+		this.elevator = new Elevator(fcount);
 		this.fcount   = fcount;
 
 		if (this.fcount<2) // Es müssen mindestens 2 Etagen existieren
@@ -48,6 +48,12 @@ public class Simulation
 	/**
 	 * nur für das debuggen
 	 */
+	public void nextStep()
+	{
+		for(Passenger p: this.passenger)
+			p.doAction(this.floors[p.getPosition()]);
+		this.elevator.doAction();
+	}
 	public void printStatus()
 	{
 		int call;
@@ -55,7 +61,10 @@ public class Simulation
 		String elev;
 		String pashere = " ";
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
+			pashere = " ";
 			for(Passenger pas: this.passenger){
+				if (pashere == "@")
+					break;
 				pashere = pas.getPosition() == fnr ? "@" : " ";
 			}
 			elev = this.elevator.getPosition() == fnr ? "→ " : "  ";

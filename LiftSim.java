@@ -31,6 +31,8 @@ public class LiftSim
 			*/
 			sim.newCall(2, 1);
 			sim.newPassenger(3,4);
+			sim.newPassenger(4,2);
+			sim.nextStep();
 			sim.move(+1);
 			//sim.run(1);
 			//sim.printStatus();

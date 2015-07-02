@@ -4,14 +4,14 @@ public class Passenger
 {
 	private int position;
 	private int destination;
-	private Lift elevator;
+	private Elevator elevator;
 
 	/**
 	 * Konstruktor
 	 * @param spos Startposition
 	 * @param dest Ziel
 	 */
-	public Passenger(int spos, int dest, Lift elevator)
+	public Passenger(int spos, int dest, Elevator elevator)
 	{
 		this.position    = spos;
 		this.destination = dest;
