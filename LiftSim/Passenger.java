@@ -17,19 +17,20 @@ public class Passenger
 		this.destination = dest;
 		this.elevator    = elevator;
 	}
-	public void doAction(Etage floor)
+	public void doAction(Floor floor)
 	{
 		if (this.position == this.destination)
 			return;
-		if (this.position == Simulation.POS_INSIDE){
-			if (this.elevator.getPosition() == this.destination && this.elevator.isOpen())
-				this.position = this.elevator.goOutside();
-			return;
-		}
 		if (this.elevator.getPosition() == this.position && this.elevator.isOpen())
-			this.position = this.elevator.goInside();
+			this.position = this.elevator.passengerIn();
 		if (this.position != Simulation.POS_INSIDE)
-			floor.setCall(this.position > this.destination ? Etage.DIR_DOWN : Etage.DIR_UP);
+			floor.setCall(this.position > this.destination ? Floor.DIR_DOWN : Floor.DIR_UP);
+	}
+	public void doAction()
+	{
+		if (this.elevator.getPosition() == this.destination && this.elevator.isOpen())
+			this.position = this.elevator.passengerOut();
+		return;
 	}
 	public int getDestination()
 	{

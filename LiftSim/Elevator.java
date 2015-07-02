@@ -66,19 +66,27 @@ public class Elevator
 		this.direction = dir > 0 ? DIR_UP : dir == 0 ? DIR_STOP : DIR_DOWN;
 		return true;
 	}
-	public void doAction()
+	public void doAction(Floor floor)
 	{
+		int fdir = this.direction == DIR_UP ? Floor.CALL_UP : this.direction == DIR_DOWN ? Floor.CALL_DOWN : Floor.CALL_BOTH;
+		if (floor.getCall(fdir)){
+			if (!this.open)
+				this.open = true;
+			floor.delCall(fdir);
+			return;
+		}
+		this.move(this.direction);
 	}
 	public boolean isOpen()
 	{
 		return this.open;
 	}
-	public int goInside()
+	public int passengerIn()
 	{
 		this.load += 1;
 		return Simulation.POS_INSIDE;
 	}
-	public int goOutside()
+	public int passengerOut()
 	{
 		this.load -= 1;
 		return this.position;

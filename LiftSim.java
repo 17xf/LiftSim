@@ -28,12 +28,12 @@ public class LiftSim
 			/*sim.newCall(4, 1);
 			sim.newCall(0, 0);
 			sim.newCall(2, 0);
-			*/
 			sim.newCall(2, 1);
-			sim.newPassenger(3,4);
-			sim.newPassenger(4,2);
+			*/
+			sim.newPassenger(2,4);
+			//sim.newPassenger(4,2);
 			sim.nextStep();
-			sim.move(+1);
+			//sim.move(+1);
 			//sim.run(1);
 			//sim.printStatus();
 			//sim.run(2);

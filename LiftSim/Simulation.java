@@ -1,13 +1,16 @@
+/**
+ * @file LiftSim/Simulation.java
+ */
 package LiftSim;
 import java.util.ArrayList;
 public class Simulation
 {
-	public static final int POS_INSIDE = -1;
+	public static final int      POS_INSIDE = -1;
 
-	private Elevator      elevator;
-	private Etage[]   floors;
+	private Elevator             elevator;
+	private Floor[]              floors;
 	private ArrayList<Passenger> passenger;
-	private int  fcount;
+	private int                  fcount;
 
 	public Simulation(int fcount)
 	{
@@ -22,11 +25,11 @@ public class Simulation
 		 * Allociert Platz für die Etagen und ruft deren Konstruktoren
 		 * mit richtigen Paramatern auf.
 		 */
-		this.floors    = new Etage[fcount];
-		this.floors[0] = new Etage(0,Etage.REL_BOTTOM, "Unten");
+		this.floors    = new Floor[fcount];
+		this.floors[0] = new Floor(0,Floor.REL_BOTTOM, "Unten");
 		for (int fnr=1; fnr<this.fcount-1; fnr++)
-			this.floors[fnr] = new Etage(fnr, Etage.REL_MID, "Etage");
-		this.floors[fcount-1] = new Etage(fcount-1, Etage.REL_TOP, "Oben");
+			this.floors[fnr] = new Floor(fnr, Floor.REL_MID, "Etage");
+		this.floors[fcount-1] = new Floor(fcount-1, Floor.REL_TOP, "Oben");
 	}
 
 	/**
@@ -45,15 +48,19 @@ public class Simulation
 	{
 		this.passenger.add(new Passenger(spos, dest, this.elevator));
 	}
+	public void nextStep()
+	{
+		this.elevator.doAction(this.floors[this.elevator.getPosition()]);
+		for(Passenger p: this.passenger){
+			if (p.getPosition() == POS_INSIDE)
+				p.doAction();
+			else
+				p.doAction(this.floors[p.getPosition() ]);
+		}
+	}
 	/**
 	 * nur für das debuggen
 	 */
-	public void nextStep()
-	{
-		for(Passenger p: this.passenger)
-			p.doAction(this.floors[p.getPosition()]);
-		this.elevator.doAction();
-	}
 	public void printStatus()
 	{
 		int call;

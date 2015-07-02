@@ -1,6 +1,6 @@
 package LiftSim;
 
-public class Etage
+public class Floor
 {
    /**
 	* call[0] runter
@@ -35,7 +35,7 @@ public class Etage
 	 * @param ext         Relation der Etage zur anderen
 	 * @param description Lesbare Etagen Beschreibung
 	 */
-	public Etage(int pos, int ext, String description)
+	public Floor(int pos, int ext, String description)
 	{
 		this.call  = new boolean[2];
 
@@ -87,6 +87,16 @@ public class Etage
 		call += this.call[DIR_DOWN] ? CALL_DOWN : CALL_NONE;
 		call += this.call[DIR_UP]   ? CALL_UP   : CALL_NONE;
 		return call;
+	}
+	/**
+	 * prüft ob eine bestimmte richtung gedrückt wurde
+	 * @param dir Richtung = {CALL_UP | CALL_DOWN} bzw. {1|2}
+	 */
+	public boolean getCall(int dir)
+	{
+		if (dir == CALL_BOTH)
+			return this.call[DIR_DOWN] || this.call[DIR_UP];
+		return this.call[dir];
 	}
 	/**
 	 * Wird aufgerufen wenn eine Instanz dieser Klasse wie ein String behandelt wird.
