@@ -5,18 +5,21 @@ package LiftSim;
 import java.util.ArrayList;
 public class Simulation
 {
-	public static final int      POS_INSIDE = -1;
+	public static final int POS_INSIDE = -1;
 
-	private Elevator             elevator;
-	private Floor[]              floors;
+	private Elevator        elevator;
+	private Floor[]         floors;
+	private int             fcount;
+	private int             step;
+
 	private ArrayList<Passenger> passenger;
-	private int                  fcount;
 
 	public Simulation(int fcount)
 	{
 		passenger     = new ArrayList<Passenger>();
 		this.elevator = new Elevator(fcount);
 		this.fcount   = fcount;
+		this.step     = 0;
 
 		if (this.fcount<2) // Es müssen mindestens 2 Etagen existieren
 			return;
@@ -50,13 +53,14 @@ public class Simulation
 	}
 	public void nextStep()
 	{
-		this.elevator.doAction(this.floors[this.elevator.getPosition()]);
 		for(Passenger p: this.passenger){
 			if (p.getPosition() == POS_INSIDE)
 				p.doAction();
 			else
-				p.doAction(this.floors[p.getPosition() ]);
+				p.doAction(this.floors[p.getPosition()]);
 		}
+		this.elevator.doAction(this.floors[this.elevator.getPosition()]);
+		this.step++;
 	}
 	/**
 	 * nur für das debuggen
@@ -89,5 +93,21 @@ public class Simulation
 			}
 			System.out.println( elev + " " + fnr + " " + callStr + pashere + this.elevator.overload());
 		}
+	}
+	public void printStatusList()
+	{
+		System.out.println("===== " + this.step + " =====" );
+		System.out.println("Pos	Des");
+		for(Passenger pas: this.passenger)
+			System.out.println(pas.getPosition() + "	" + pas.getDestination());
+
+		System.out.println("Floor	CallState");
+		for (int fnr=this.fcount-1; fnr>=0; fnr--)
+			System.out.println(fnr + "	" + this.floors[fnr].getCall());
+		System.out.println("Pos	Dir	Open	Load	");
+		System.out.println(this.elevator.getPosition() + "	" + this.elevator.getDirection() + "	" + this.elevator.isOpen() + "	" + this.elevator.getLoad());
+		System.out.println("Wishes");
+		for (int w: this.elevator.getWishes())
+			System.out.print(w + " ");
 	}
 }

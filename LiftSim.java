@@ -14,29 +14,19 @@ public class LiftSim
 	public static void main(String[] args)
 	{
 
-		Simulation sim = new Simulation(5);
+		String test;
 		Console c = System.console();
-		c.readLine();
-		System.out.println("Start");
 
+		Simulation sim = new Simulation(7);
+
+		sim.newPassenger(2,4);
+		sim.newPassenger(2,1);
 		while(true)
 		{
-			String test = c.readLine();
-			System.out.println("===================");
-			sim.printStatus();
+			test = c.readLine();
 
-			/*sim.newCall(4, 1);
-			sim.newCall(0, 0);
-			sim.newCall(2, 0);
-			sim.newCall(2, 1);
-			*/
-			sim.newPassenger(2,4);
-			//sim.newPassenger(4,2);
+			sim.printStatusList();
 			sim.nextStep();
-			//sim.move(+1);
-			//sim.run(1);
-			//sim.printStatus();
-			//sim.run(2);
 		}
 	}
 }

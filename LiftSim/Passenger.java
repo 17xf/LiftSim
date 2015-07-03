@@ -28,9 +28,11 @@ public class Passenger
 	}
 	public void doAction()
 	{
-		if (this.elevator.getPosition() == this.destination && this.elevator.isOpen())
+		if (this.elevator.getPosition() == this.destination && this.elevator.isOpen()){
 			this.position = this.elevator.passengerOut();
-		return;
+			return;
+		}
+		this.elevator.setWish(this.destination);
 	}
 	public int getDestination()
 	{

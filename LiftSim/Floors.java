@@ -1,13 +1,13 @@
 package LiftSim;
 
-public class Floor
+public class Floors
 {
    /**
 	* call[0] runter
     * call[1] hoch
     */
-	public static final int DIR_DOWN = 0;
-	public static final int DIR_UP   = 1;
+	public static final int DIR_DOWN     =  0;
+	public static final int DIR_UP       =  1;
 	private boolean[]       call;
 	private int             position;
 
@@ -34,7 +34,7 @@ public class Floor
 	 * @param ext         Relation der Etage zur anderen
 	 * @param description Lesbare Etagen Beschreibung
 	 */
-	public Floor(int pos, int ext, String description)
+	public Floors(int pos, int ext, String description)
 	{
 		this.call  = new boolean[2];
 
