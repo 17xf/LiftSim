@@ -47,6 +47,10 @@ public class Simulation
 	{
 		return this.elevator.move(dir);
 	}
+	public void newRandPassenger()
+	{
+		this.passenger.add(new Passenger((int)(Math.random() * 6), (int)(Math.random() * 6), this.elevator));
+	}
 	public void newPassenger(int spos, int dest)
 	{
 		this.passenger.add(new Passenger(spos, dest, this.elevator));

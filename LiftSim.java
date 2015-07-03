@@ -20,9 +20,13 @@ public class LiftSim
 		Simulation sim = new Simulation(7);
 
 		sim.newPassenger(2,4);
+		sim.newPassenger(3,6);
 		sim.newPassenger(2,1);
+		sim.newRandPassenger();
 		while(true)
 		{
+			if ((int)(Math.random() * 6)>3)
+				sim.newRandPassenger();
 			test = c.readLine();
 
 			sim.printStatusList();

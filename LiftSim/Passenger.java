@@ -21,7 +21,7 @@ public class Passenger
 	{
 		if (this.position == this.destination)
 			return;
-		if (this.elevator.getPosition() == this.position && this.elevator.isOpen())
+		if (this.elevator.getPosition() == this.position && this.elevator.isOpen() && this.elevator.getDirection() == (this.position > this.destination ? Elevator.DIR_DOWN : Elevator.DIR_UP))
 			this.position = this.elevator.passengerIn();
 		if (this.position != Simulation.POS_INSIDE)
 			floor.setCall(this.position > this.destination ? Floor.DIR_DOWN : Floor.DIR_UP);
