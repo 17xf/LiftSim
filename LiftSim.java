@@ -22,6 +22,7 @@ public class LiftSim
 		sim.newPassenger(2,4);
 		sim.newPassenger(3,6);
 		sim.newPassenger(2,1);
+		sim.newPassenger(0,3);
 		sim.newRandPassenger();
 		while(true)
 		{

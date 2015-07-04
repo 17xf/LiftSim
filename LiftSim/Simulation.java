@@ -7,41 +7,39 @@ public class Simulation
 {
 	public static final int POS_INSIDE = -1;
 
-	private Elevator        elevator;
-	private Floor[]         floors;
-	private int             fcount;
-	private int             step;
+	private Elevator  elevator;
+	private Floors    floors;
+	private int       fcount;
+	private int       step;
 
 	private ArrayList<Passenger> passenger;
 
+	/**
+	 * @param fcount Anzahl der Etagen. Darf nicht kleine als 2 sein.
+	 */
 	public Simulation(int fcount)
 	{
 		passenger     = new ArrayList<Passenger>();
 		this.elevator = new Elevator(fcount);
 		this.fcount   = fcount;
 		this.step     = 0;
-
-		if (this.fcount<2) // Es müssen mindestens 2 Etagen existieren
-			return;
-
-		/**
-		 * Allociert Platz für die Etagen und ruft deren Konstruktoren
-		 * mit richtigen Paramatern auf.
-		 */
-		this.floors    = new Floor[fcount];
-		this.floors[0] = new Floor(0,Floor.REL_BOTTOM, "Unten");
-		for (int fnr=1; fnr<this.fcount-1; fnr++)
-			this.floors[fnr] = new Floor(fnr, Floor.REL_MID, "Etage");
-		this.floors[fcount-1] = new Floor(fcount-1, Floor.REL_TOP, "Oben");
+		this.floors   = new Floors(fcount);
 	}
 
+	/**
+	 * experimentelle Funktion
+	 */
+	public void newCall(int fnr, String dir )
+	{
+		this.floors.setCall(fnr, dir == "down" ? 0 : 1);
+	}
 	/**
 	 * @param fnr Etagennummer
 	 * @param dir Richtung: 0 = runter, 1 = hoch)
 	 */
 	public void newCall(int fnr, int dir )
 	{
-		this.floors[fnr].setCall(dir);
+		this.floors.setCall(fnr, dir);
 	}
 	public boolean move(int dir)
 	{
@@ -58,12 +56,14 @@ public class Simulation
 	public void nextStep()
 	{
 		for(Passenger p: this.passenger){
-			if (p.getPosition() == POS_INSIDE)
+			if (p.getPosition() == POS_INSIDE){
 				p.doAction();
-			else
-				p.doAction(this.floors[p.getPosition()]);
+			}else{
+				Floor f = this.floors.getFloor(p.getPosition());
+				p.doAction(f);
+			}
 		}
-		this.elevator.doAction(this.floors[this.elevator.getPosition()]);
+		this.elevator.doAction(this.floors.getFloor(this.elevator.getPosition()));
 		this.step++;
 	}
 	/**
@@ -83,7 +83,7 @@ public class Simulation
 				pashere = pas.getPosition() == fnr ? "@" : " ";
 			}
 			elev = this.elevator.getPosition() == fnr ? "→ " : "  ";
-			call = this.floors[fnr].getCall();
+			call = this.floors.getCall(fnr);
 			switch (call){
 				case 0: callStr = "  ";
 						break;
@@ -107,7 +107,7 @@ public class Simulation
 
 		System.out.println("Floor	CallState");
 		for (int fnr=this.fcount-1; fnr>=0; fnr--)
-			System.out.println(fnr + "	" + this.floors[fnr].getCall());
+			System.out.println(fnr + "	" + this.floors.getCall(fnr));
 		System.out.println("Pos	Dir	Open	Load	");
 		System.out.println(this.elevator.getPosition() + "	" + this.elevator.getDirection() + "	" + this.elevator.isOpen() + "	" + this.elevator.getLoad());
 		System.out.println("Wishes");

@@ -92,6 +92,16 @@ public class Elevator
 		this.direction = DIR_UP;
 		this.move(this.direction);
 	}
+	private int calcDirection()
+	{
+		/**
+		 * if call exist in current direction return
+		 * if wishes exist in current direction return
+		 * if no calls and no wishes direction = null
+		 * if no calls and no wishes in direction but calls and wishes in reverse direction direction = reverse
+		 */
+		return 1;
+	}
 	public int getDirection()
 	{
 		return this.direction;

@@ -24,17 +24,12 @@ public class Floor
 	private int ext;
 
 	/**
-	 * Beschreibung der Etage z.b.: Ergdeschoß, Keller...
-	 */
-	private String description;            
-
-	/**
 	 * Konstruktor
 	 * @param pos         Position der Etage
 	 * @param ext         Relation der Etage zur anderen
 	 * @param description Lesbare Etagen Beschreibung
 	 */
-	public Floor(int pos, int ext, String description)
+	public Floor(int pos, int ext)
 	{
 		this.call  = new boolean[2];
 
@@ -43,7 +38,6 @@ public class Floor
 
 		this.ext           = ext;
 		this.position      = pos;
-		this.description   = description;
 	}
 
 	/**
@@ -62,6 +56,11 @@ public class Floor
 	 */
 	public void delCall(int direction)
 	{
+		if (direction == CALL_BOTH){
+			this.call[DIR_DOWN] = false;
+			this.call[DIR_UP]   = false;
+			return;
+		}
 		this.call[direction] = false;
 	}
 
@@ -96,14 +95,6 @@ public class Floor
 		if (dir == CALL_BOTH)
 			return this.call[DIR_DOWN] || this.call[DIR_UP];
 		return this.call[dir];
-	}
-	/**
-	 * Wird aufgerufen wenn eine Instanz dieser Klasse wie ein String behandelt wird.
-	 * Bsp.: System.out.println(etage);
-	 */
-	public String toString()
-	{
-		return this.description;
 	}
 }
 

@@ -1,109 +1,32 @@
 package LiftSim;
+import java.util.ArrayList;
 
 public class Floors
 {
-   /**
-	* call[0] runter
-    * call[1] hoch
-    */
-	public static final int DIR_DOWN     =  0;
-	public static final int DIR_UP       =  1;
-	private boolean[]       call;
-	private int             position;
+	private ArrayList<Floor> floors;
 
-	public static final int REL_TOP      =  1;
-	public static final int REL_MID      =  0;
-	public static final int REL_BOTTOM   = -1;
-	/**
-	 * Wo befindet sich die Etage? Ganz Oben? Unten? Dazwischen? 
-	 * Wäre nicht nötig wenn man eine Liste verwenden würden. 
-	 *  1 = ganz oben
-	 *  0 = mitte
-	 * -1 ganz unten
-	 */
-	private int ext;
-
-	/**
-	 * Beschreibung der Etage z.b.: Ergdeschoß, Keller...
-	 */
-	private String description;            
-
-	/**
-	 * Konstruktor
-	 * @param pos         Position der Etage
-	 * @param ext         Relation der Etage zur anderen
-	 * @param description Lesbare Etagen Beschreibung
-	 */
-	public Floors(int pos, int ext, String description)
+	public Floors(int amount)
 	{
-		this.call  = new boolean[2];
-
-		this.call[DIR_DOWN]        = false;
-		this.call[DIR_UP]          = false;
-
-		this.ext           = ext;
-		this.position      = pos;
-		this.description   = description;
+		this.floors = new ArrayList<Floor>();
+		this.floors.add(new Floor(0, Floor.REL_BOTTOM));
+		for (int fnr=1; fnr<=amount-2; fnr++)
+			this.floors.add(new Floor(fnr, Floor.REL_MID));
+		this.floors.add(new Floor(amount-1, Floor.REL_TOP));
+	}
+	public void setCall(int fpos, int dir)
+	{
+		Floor f = this.floors.get(fpos);
+		f.setCall(dir);
+	}
+	public int getCall(int fpos)
+	{
+		Floor f = this.floors.get(fpos);
+		return f.getCall();
+	}
+	public Floor getFloor(int fpos)
+	{
+		return this.floors.get(fpos);
 	}
 
-	/**
-	 * Setzt den Ruf für die gewünschte Richtung auf dieser Etage.
-	 * @param direction Richtung die "gedrückt" werden soll. 0 = Runter; 1 = Hoch;
-	 * @todo Konstanten für Hoch und Runter verwenden
-	 */
-	public void setCall(int direction)
-	{
-		this.call[direction] = true;
-	}
-
-	/**
-	 * löscht den "gedrückt" status der gewünschten Richtung. 
-	 * @param direction Richtung die "gelöscht" werden soll. 0 = Runter; 1 = Hoch;
-	 */
-	public void delCall(int direction)
-	{
-		this.call[direction] = false;
-	}
-
-	public static final int CALL_NONE = 0;
-	public static final int CALL_UP   = 1;
-	public static final int CALL_DOWN = 2;
-	public static final int CALL_BOTH = 3;
-	/**
-	 * Gibt den aktuellen Rufstatus zurück.
-	 *
-	 * down  up  return
-	 * 0     0   = 0
-	 * 0     1   = 1
-	 * 1     0   = 2
-	 * 1     1   = 3
-	 *
-	 * 	@return 0 = no call; 1 = up; 2 = down; 3 = both;
-	 */
-	public int getCall()
-	{
-		int call = CALL_NONE;
-		call += this.call[DIR_DOWN] ? CALL_DOWN : CALL_NONE;
-		call += this.call[DIR_UP]   ? CALL_UP   : CALL_NONE;
-		return call;
-	}
-	/**
-	 * prüft ob eine bestimmte richtung gedrückt wurde
-	 * @param dir Richtung = {CALL_UP | CALL_DOWN} bzw. {1|2}
-	 */
-	public boolean getCall(int dir)
-	{
-		if (dir == CALL_BOTH)
-			return this.call[DIR_DOWN] || this.call[DIR_UP];
-		return this.call[dir];
-	}
-	/**
-	 * Wird aufgerufen wenn eine Instanz dieser Klasse wie ein String behandelt wird.
-	 * Bsp.: System.out.println(etage);
-	 */
-	public String toString()
-	{
-		return this.description;
-	}
 }
 
