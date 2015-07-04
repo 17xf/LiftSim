@@ -88,7 +88,7 @@ public class Floor
 	}
 	/**
 	 * prüft ob eine bestimmte richtung gedrückt wurde
-	 * @param dir Richtung = {CALL_UP | CALL_DOWN} bzw. {1|2}
+	 * @param dir Richtung = {DIR_UP | DIR_DOWN}
 	 */
 	public boolean getCall(int dir)
 	{

@@ -20,9 +20,8 @@ public class LiftSim
 		Simulation sim = new Simulation(7);
 
 		sim.newPassenger(2,4);
-		sim.newPassenger(3,6);
-		sim.newPassenger(2,1);
-		sim.newPassenger(0,3);
+		sim.newRandPassenger();
+		sim.newRandPassenger();
 		sim.newRandPassenger();
 		while(true)
 		{
@@ -30,7 +29,8 @@ public class LiftSim
 				sim.newRandPassenger();
 			test = c.readLine();
 
-			sim.printStatusList();
+//			sim.printStatusList();
+			sim.printStatus();
 			sim.nextStep();
 		}
 	}

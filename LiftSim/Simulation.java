@@ -47,22 +47,16 @@ public class Simulation
 	}
 	public void newRandPassenger()
 	{
-		this.passenger.add(new Passenger((int)(Math.random() * 6), (int)(Math.random() * 6), this.elevator));
+		this.passenger.add(new Passenger((int)(Math.random() * 7), (int)(Math.random() * 7), this.elevator, this.floors));
 	}
 	public void newPassenger(int spos, int dest)
 	{
-		this.passenger.add(new Passenger(spos, dest, this.elevator));
+		this.passenger.add(new Passenger(spos, dest, this.elevator, this.floors));
 	}
 	public void nextStep()
 	{
-		for(Passenger p: this.passenger){
-			if (p.getPosition() == POS_INSIDE){
-				p.doAction();
-			}else{
-				Floor f = this.floors.getFloor(p.getPosition());
-				p.doAction(f);
-			}
-		}
+		for(Passenger p: this.passenger)
+			p.doAction();
 		this.elevator.doAction(this.floors.getFloor(this.elevator.getPosition()));
 		this.step++;
 	}
@@ -71,19 +65,26 @@ public class Simulation
 	 */
 	public void printStatus()
 	{
-		int call;
+		System.out.println("===== " + this.step + " =====");
+		int    call;
 		String callStr;
-		String elev;
-		String pashere = " ";
+		String elstr;
+		String plstr   = ""; //passanger list string
+		String inplstr = ""; //inside passanger list string
+		String elvd    = ""; //elevator door
+		String elvol   = ""; //elevator overload
+
+		for(Passenger pas: this.passenger)
+			inplstr += pas.getPosition() == Simulation.POS_INSIDE ? "(" + pas.getDestination() + ")" : "";  
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
-			pashere = " ";
-			for(Passenger pas: this.passenger){
-				if (pashere == "@")
-					break;
-				pashere = pas.getPosition() == fnr ? "@" : " ";
-			}
-			elev = this.elevator.getPosition() == fnr ? "→ " : "  ";
-			call = this.floors.getCall(fnr);
+			plstr = "";
+			for(Passenger pas: this.passenger)
+				plstr += pas.getPosition() == fnr ? "(" + pas.getDestination() + ")" : "";
+
+			elvd  = this.elevator.isOpen()   ? " " : "#";
+			elvol = this.elevator.overload() ? "!" : " ";
+			elstr = this.elevator.getPosition() == fnr ? elvol + "[" + elvd + "]" : "    ";
+			call  = this.floors.getCall(fnr);
 			switch (call){
 				case 0: callStr = "  ";
 						break;
@@ -95,8 +96,9 @@ public class Simulation
 						break;
 				default: callStr = "xx";
 			}
-			System.out.println( elev + " " + fnr + " " + callStr + pashere + this.elevator.overload());
+			System.out.println( fnr + ": " + elstr + " " + callStr + " " + plstr);
 		}
+		System.out.println("Inside: " + inplstr);
 	}
 	public void printStatusList()
 	{

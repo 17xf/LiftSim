@@ -102,6 +102,17 @@ public class Elevator
 		 */
 		return 1;
 	}
+	private boolean isWishInDir(int dir)
+	{
+		for (int wish: this.wishes){
+			if (dir < 0){ // nach unten
+				if (wish < dir) return true;
+			}else{
+				if (wish > dir) return true;
+			}
+		}
+		return false;
+	}
 	public int getDirection()
 	{
 		return this.direction;
