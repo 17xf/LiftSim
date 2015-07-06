@@ -8,8 +8,8 @@ public class Simulation
 	public static final int POS_INSIDE = -1;
 
 	private Elevator  elevator;
-	private Floors    floors;
 	private int       fcount;
+	private Floors    floors;
 	private int       step;
 
 	private ArrayList<Passenger> passenger;
@@ -19,27 +19,20 @@ public class Simulation
 	 */
 	public Simulation(int fcount)
 	{
-		passenger     = new ArrayList<Passenger>();
-		this.elevator = new Elevator(fcount);
-		this.fcount   = fcount;
-		this.step     = 0;
-		this.floors   = new Floors(fcount);
+		this.floors    = new Floors(fcount);
+		this.elevator  = new Elevator(fcount, this.floors);
+		this.passenger = new ArrayList<Passenger>();
+		this.fcount    = fcount;
+		this.step      = 0;
 	}
 
 	/**
-	 * experimentelle Funktion
-	 */
-	public void newCall(int fnr, String dir )
-	{
-		this.floors.setCall(fnr, dir == "down" ? 0 : 1);
-	}
-	/**
-	 * @param fnr Etagennummer
+	 * @param pos Etagennummer
 	 * @param dir Richtung: 0 = runter, 1 = hoch)
 	 */
-	public void newCall(int fnr, int dir )
+	public void newCall(int pos, CallDirection dir)
 	{
-		this.floors.setCall(fnr, dir);
+		this.floors.setCall(pos, dir);
 	}
 	public boolean move(int dir)
 	{
@@ -49,15 +42,15 @@ public class Simulation
 	{
 		this.passenger.add(new Passenger((int)(Math.random() * 7), (int)(Math.random() * 7), this.elevator, this.floors));
 	}
-	public void newPassenger(int spos, int dest)
+	public void newPassenger(int pos, int dest)
 	{
-		this.passenger.add(new Passenger(spos, dest, this.elevator, this.floors));
+		this.passenger.add(new Passenger(pos, dest, this.elevator, this.floors));
 	}
 	public void nextStep()
 	{
 		for(Passenger p: this.passenger)
 			p.doAction();
-		this.elevator.doAction(this.floors.getFloor(this.elevator.getPosition()));
+		this.elevator.doAction();
 		this.step++;
 	}
 	/**
@@ -66,14 +59,17 @@ public class Simulation
 	public void printStatus()
 	{
 		System.out.println("===== " + this.step + " =====");
-		int    call;
+		CallState    call;
 		String callStr;
 		String elstr;
 		String plstr   = ""; //passanger list string
 		String inplstr = ""; //inside passanger list string
 		String elvd    = ""; //elevator door
 		String elvol   = ""; //elevator overload
+		String wstr    = "";
 
+		for (int w: this.elevator.getWishes())
+			wstr += w + " ";
 		for(Passenger pas: this.passenger)
 			inplstr += pas.getPosition() == Simulation.POS_INSIDE ? "(" + pas.getDestination() + ")" : "";  
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
@@ -84,21 +80,22 @@ public class Simulation
 			elvd  = this.elevator.isOpen()   ? " " : "#";
 			elvol = this.elevator.overload() ? "!" : " ";
 			elstr = this.elevator.getPosition() == fnr ? elvol + "[" + elvd + "]" : "    ";
-			call  = this.floors.getCall(fnr);
+			call  = this.floors.getCallState(fnr);
 			switch (call){
-				case 0: callStr = "  ";
+				case NONE: callStr = "  ";
 						break;
-				case 1: callStr = "↑ ";
+				case UP:   callStr = "↑ ";
 						break;
-				case 2: callStr = " ↓";
+				case DOWN: callStr = " ↓";
 						break;
-				case 3: callStr = "↑↓";
+				case BOTH: callStr = "↑↓";
 						break;
 				default: callStr = "xx";
 			}
 			System.out.println( fnr + ": " + elstr + " " + callStr + " " + plstr);
 		}
 		System.out.println("Inside: " + inplstr);
+		System.out.println("Wishes: " + wstr);
 	}
 	public void printStatusList()
 	{
@@ -109,7 +106,7 @@ public class Simulation
 
 		System.out.println("Floor	CallState");
 		for (int fnr=this.fcount-1; fnr>=0; fnr--)
-			System.out.println(fnr + "	" + this.floors.getCall(fnr));
+			System.out.println(fnr + "	" + this.floors.getCallState(fnr));
 		System.out.println("Pos	Dir	Open	Load	");
 		System.out.println(this.elevator.getPosition() + "	" + this.elevator.getDirection() + "	" + this.elevator.isOpen() + "	" + this.elevator.getLoad());
 		System.out.println("Wishes");

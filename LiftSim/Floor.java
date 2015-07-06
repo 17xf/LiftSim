@@ -3,17 +3,19 @@ package LiftSim;
 public class Floor
 {
    /**
-	* call[0] runter
-    * call[1] hoch
+	* buttons[0] runter
+    * buttons[1] hoch
     */
-	public static final int DIR_DOWN = 0;
-	public static final int DIR_UP   = 1;
-	private boolean[]       call;
-	private int             position;
+	private boolean[]       buttons;
+
+	public static final int INDEX_DOWN = 0;
+	public static final int INDEX_UP   = 1;
 
 	public static final int REL_TOP      =  1;
 	public static final int REL_MID      =  0;
 	public static final int REL_BOTTOM   = -1;
+
+	private int             position;
 	/**
 	 * Wo befindet sich die Etage? Ganz Oben? Unten? Dazwischen? 
 	 * Wäre nicht nötig wenn man eine Liste verwenden würden. 
@@ -31,10 +33,10 @@ public class Floor
 	 */
 	public Floor(int pos, int ext)
 	{
-		this.call  = new boolean[2];
+		this.buttons  = new boolean[2];
 
-		this.call[DIR_DOWN]        = false;
-		this.call[DIR_UP]          = false;
+		this.buttons[INDEX_DOWN]        = false;
+		this.buttons[INDEX_UP]          = false;
 
 		this.ext           = ext;
 		this.position      = pos;
@@ -42,26 +44,20 @@ public class Floor
 
 	/**
 	 * Setzt den Ruf für die gewünschte Richtung auf dieser Etage.
-	 * @param direction Richtung die "gedrückt" werden soll. 0 = Runter; 1 = Hoch;
-	 * @todo Konstanten für Hoch und Runter verwenden
+	 * @param dir Richtung die "gedrückt" werden soll. CallDirection.{UP|DOWN}
 	 */
-	public void setCall(int direction)
+	public void setCall(CallDirection dir)
 	{
-		this.call[direction] = true;
+		this.buttons[callToIndex(dir)] = true;
 	}
 
 	/**
 	 * löscht den "gedrückt" status der gewünschten Richtung. 
-	 * @param direction Richtung die "gelöscht" werden soll. 0 = Runter; 1 = Hoch;
+	 * @param direction Richtung die "gelöscht" werden soll. CallDirection.{UP|DOWN}
 	 */
-	public void delCall(int direction)
+	public void delCall(CallDirection dir)
 	{
-		if (direction == CALL_BOTH){
-			this.call[DIR_DOWN] = false;
-			this.call[DIR_UP]   = false;
-			return;
-		}
-		this.call[direction] = false;
+		this.buttons[callToIndex(dir)] = false;
 	}
 
 	public static final int CALL_NONE = 0;
@@ -70,31 +66,31 @@ public class Floor
 	public static final int CALL_BOTH = 3;
 	/**
 	 * Gibt den aktuellen Rufstatus zurück.
-	 *
-	 * down  up  return
-	 * 0     0   = 0
-	 * 0     1   = 1
-	 * 1     0   = 2
-	 * 1     1   = 3
-	 *
-	 * 	@return 0 = no call; 1 = up; 2 = down; 3 = both;
+	 * 	@return CallState.{UP|DOWN|BOTH|NONE}
 	 */
-	public int getCall()
+	public CallState getCallState()
 	{
-		int call = CALL_NONE;
-		call += this.call[DIR_DOWN] ? CALL_DOWN : CALL_NONE;
-		call += this.call[DIR_UP]   ? CALL_UP   : CALL_NONE;
-		return call;
+		if (this.buttons[INDEX_DOWN] && this.buttons[INDEX_UP])
+			return CallState.BOTH;
+		if (this.buttons[INDEX_DOWN])
+			return CallState.DOWN;
+		if (this.buttons[INDEX_UP])
+			return CallState.UP;
+		return CallState.NONE;
 	}
 	/**
 	 * prüft ob eine bestimmte richtung gedrückt wurde
 	 * @param dir Richtung = {DIR_UP | DIR_DOWN}
 	 */
-	public boolean getCall(int dir)
+	public boolean isCallSet(CallDirection dir)
 	{
-		if (dir == CALL_BOTH)
-			return this.call[DIR_DOWN] || this.call[DIR_UP];
-		return this.call[dir];
+		return this.buttons[callToIndex(dir)];
+	}
+	private int callToIndex(CallDirection dir)
+	{
+		if (dir == CallDirection.DOWN)    return INDEX_DOWN;
+		else if (dir == CallDirection.UP) return INDEX_UP;
+		else throw new IllegalArgumentException( "Nur die Werte CallDirection.{UP|DOWN} erlaubt!" );
 	}
 }
 

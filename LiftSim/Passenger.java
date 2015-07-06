@@ -30,12 +30,16 @@ public class Passenger
 				this.position = this.elevator.passengerOut();
 				return;
 			}
+			//redundant? 
 			this.elevator.setWish(this.destination);
 			return;
 		}
 		if (this.position == this.destination) return;
-		if (canEnter() && this.elevator.getDirection() == (this.position > this.destination ? Elevator.DIR_DOWN : Elevator.DIR_UP))
+		if (canEnter() && (this.elevator.getDirection() == (this.position > this.destination ? Elevator.DIR_DOWN : Elevator.DIR_UP) || this.elevator.getDirection() == Elevator.DIR_STOP)){
 			this.position = this.elevator.passengerIn();
+			if (this.position == Simulation.POS_INSIDE)
+				this.elevator.setWish(this.destination);
+		}
 		if (this.position != Simulation.POS_INSIDE)
 			this.floors.setCall(this.position, this.position > this.destination ? Floor.DIR_DOWN : Floor.DIR_UP);
 	}
