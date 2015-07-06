@@ -14,6 +14,7 @@ public class Elevator
 	private int      position;
 
 	private HashSet<Integer> wishes;
+	private int mWish;
 
 	/**
 	 * Konstruktor

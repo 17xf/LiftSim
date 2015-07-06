@@ -11,11 +11,13 @@ public class Floor
 	public static final int INDEX_DOWN = 0;
 	public static final int INDEX_UP   = 1;
 
+	private int             position;
+	private int             prio;
+
+
 	public static final int REL_TOP      =  1;
 	public static final int REL_MID      =  0;
 	public static final int REL_BOTTOM   = -1;
-
-	private int             position;
 	/**
 	 * Wo befindet sich die Etage? Ganz Oben? Unten? Dazwischen? 
 	 * Wäre nicht nötig wenn man eine Liste verwenden würden. 
@@ -40,8 +42,14 @@ public class Floor
 
 		this.ext           = ext;
 		this.position      = pos;
+		this.prio          = -1;
 	}
 
+	public void setCall(CallDirection dir, boolean prio)
+	{
+		this.buttons[callToIndex(dir)] = true;
+		this.prio = prio ? callToIndex(dir) : -1;
+	}
 	/**
 	 * Setzt den Ruf für die gewünschte Richtung auf dieser Etage.
 	 * @param dir Richtung die "gedrückt" werden soll. CallDirection.{UP|DOWN}
@@ -57,6 +65,7 @@ public class Floor
 	 */
 	public void delCall(CallDirection dir)
 	{
+		this.prio = this.prio == callToIndex(dir)? -1 : this.prio;
 		this.buttons[callToIndex(dir)] = false;
 	}
 
@@ -85,6 +94,10 @@ public class Floor
 	public boolean isCallSet(CallDirection dir)
 	{
 		return this.buttons[callToIndex(dir)];
+	}
+	public boolean isCallPrio(CallDirection dir)
+	{
+		return callToIndex(dir) == this.prio;
 	}
 	private int callToIndex(CallDirection dir)
 	{

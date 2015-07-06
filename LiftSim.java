@@ -19,15 +19,16 @@ public class LiftSim
 
 		Simulation sim = new Simulation(7);
 
-		sim.newPassenger(0,4);
+		sim.newPassenger(0,4, false);
+		sim.newPassenger(3,6, true);
 		sim.newRandPassenger();
 		sim.newRandPassenger();
 		sim.printStatus();
 		while(true)
 		{
-		sim.newRandPassenger();
-//			if ((int)(Math.random() * 6)>3)
-//				sim.newRandPassenger();
+//		sim.newRandPassenger();
+			if ((int)(Math.random() * 6)>3)
+				sim.newRandPassenger();
 			test = c.readLine();
 
 //			sim.printStatusList();

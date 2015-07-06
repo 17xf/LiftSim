@@ -32,11 +32,20 @@ public class Floors
 	{
 		return isCallInDir(pos, Movement.DOWN, callDir);
 	}
-	public void setCall(int fpos, CallDirection dir)
+	public void setCall(int pos, CallDirection dir)
+	{
+		setCall(pos, dir, false);
+	}
+	public void setCall(int pos, CallDirection dir, boolean prio)
+	{
+		Floor f = this.floors.get(pos);
+
+		f.setCall(dir, prio);
+	}
+	public boolean isCallPrio(int fpos, CallDirection dir)
 	{
 		Floor f = this.floors.get(fpos);
-
-		f.setCall(dir);
+		return f.isCallPrio(dir);
 	}
 	public boolean isCallSet(int fpos, CallDirection dir)
 	{

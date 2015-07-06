@@ -30,9 +30,9 @@ public class Simulation
 	 * @param pos Etagennummer
 	 * @param dir Richtung: 0 = runter, 1 = hoch)
 	 */
-	public void newCall(int pos, CallDirection dir)
+	public void newCall(int pos, CallDirection dir, boolean prio)
 	{
-		this.floors.setCall(pos, dir);
+		this.floors.setCall(pos, dir, prio);
 	}
 	public boolean move(Movement dir)
 	{
@@ -40,11 +40,15 @@ public class Simulation
 	}
 	public void newRandPassenger()
 	{
-		this.passenger.add(new Passenger((int)(Math.random() * 7), (int)(Math.random() * 7), this.elevator, this.floors));
+		this.passenger.add(new Passenger((int)(Math.random() * this.fcount), (int)(Math.random() * this.fcount), this.elevator, this.floors));
 	}
-	public void newPassenger(int pos, int dest)
+	public void delPassenger(int pos, int dest)
 	{
-		this.passenger.add(new Passenger(pos, dest, this.elevator, this.floors));
+		//this.passenger.remove(2);
+	}
+	public void newPassenger(int pos, int dest, boolean prio)
+	{
+		this.passenger.add(new Passenger(pos, dest, this.elevator, this.floors, prio));
 	}
 	public void nextStep()
 	{
@@ -74,13 +78,16 @@ public class Simulation
 			inplstr += pas.getPosition() == Simulation.POS_INSIDE ? "(" + pas.getDestination() + ")" : "";  
 		for (int fnr=this.fcount-1; fnr>=0; fnr--){	
 			plstr = "";
-			for(Passenger pas: this.passenger)
-				plstr += pas.getPosition() == fnr ? "(" + pas.getDestination() + ")" : "";
+			for(Passenger pas: this.passenger){
+				String ps = pas.getPrio() ? "*" : "";
+				plstr += pas.getPosition() == fnr ? "(" + pas.getDestination() + ps + ")" : "";
+			}
 
 			elvd  = this.elevator.isOpen()   ? " " : "#";
 			elvol = this.elevator.isOverload() ? "!" : " ";
 			elstr = this.elevator.getPosition() == fnr ? elvol + "[" + elvd + "]" : "    ";
 			call  = this.floors.getCallState(fnr);
+			String prio = this.floors.isCallPrio(fnr, CallDirection.UP) ? "↑" : this.floors.isCallPrio(fnr, CallDirection.DOWN) ? "↓" : "";
 			switch (call){
 				case NONE: callStr = "  ";
 						break;
@@ -92,7 +99,7 @@ public class Simulation
 						break;
 				default: callStr = "xx";
 			}
-			System.out.println( fnr + ": " + elstr + " " + callStr + " " + plstr);
+			System.out.println( fnr + ": " + elstr + " " + callStr + " " + plstr + " " + prio);
 		}
 		System.out.println("Inside: " + inplstr);
 		System.out.println("Wishes: " + wstr);
