@@ -24,41 +24,14 @@ public class Floors
 		}
 		return false;
 	}
-	public boolean isCallAbove(int pos, CallDirection dir)
+	public boolean isCallAbove(int pos, CallDirection callDir)
 	{
-
-		while (pos < this.floors.size()){
-			Floor f = this.floors.get(pos);
-			if (f.isCallSet(dir)) return true;
-			pos++;
-		}
-		return false;
+		return isCallInDir(pos, Movement.UP, callDir);
 	}
-	public boolean isCallBeneath(int pos, CallDirection dir)
+	public boolean isCallBeneath(int pos, CallDirection callDir)
 	{
-		while (pos >= 0){
-			Floor f = this.floors.get(pos);
-			if (f.isCallSet(dir)) return true;
-			pos--;
-		}
-		return false;
+		return isCallInDir(pos, Movement.DOWN, callDir);
 	}
-	/*
-	public boolean isCallInDir(int ffpos, CallDirection dir)
-	{
-		dir = dir != 0 ? dir : 1;
-		while(ffpos >= 0 && ffpos < this.floors.size())
-		{
-			Floor f = this.floors.get(ffpos);
-			//if (f.getCall(dir > 0 ? Floor.DIR_UP : Floor.DIR_DOWN))
-			if (f.isCallSet(dir))
-				return true;
-			ffpos += dir;
-		}
-		return false;
-	}
-	*/
-
 	public void setCall(int fpos, CallDirection dir)
 	{
 		Floor f = this.floors.get(fpos);
@@ -74,6 +47,10 @@ public class Floors
 	{
 		Floor f = this.floors.get(fpos);
 		return f.getCallState();
+	}
+	public int getFloorCount()
+	{
+		return this.floors.size();
 	}
 	/*
 	public Floor getFloor(int fpos)

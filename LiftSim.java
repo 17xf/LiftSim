@@ -22,10 +22,10 @@ public class LiftSim
 		sim.newPassenger(0,4);
 		sim.newRandPassenger();
 		sim.newRandPassenger();
-		sim.newRandPassenger();
 		sim.printStatus();
 		while(true)
 		{
+		sim.newRandPassenger();
 //			if ((int)(Math.random() * 6)>3)
 //				sim.newRandPassenger();
 			test = c.readLine();

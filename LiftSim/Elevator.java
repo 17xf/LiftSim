@@ -58,7 +58,7 @@ public class Elevator
 			System.out.println("Elevator: Move: Not moved because door open");
 			return false;
 		}
-		if (this.overload()){
+		if (this.isOverload()){
 			System.out.println("Elevator: Move: Not moved because overload");
 			return false;
 		}
@@ -93,7 +93,7 @@ public class Elevator
 			System.out.println("Elevator: Door close");
 			return;
 		}
-		CallDirection fdir = this.direction == Movement.UP ? CallDirection.UP : this.direction == Movement.DOWN ? CallDirection.DOWN : CallDirection.BOTH;
+		CallDirection fdir = this.direction == Movement.UP ? CallDirection.UP : this.direction == Movement.DOWN ? CallDirection.DOWN : CallDirection.UP;
 
 		if (this.floors.isCallSet(this.position, fdir)){
 			this.open = true;
@@ -119,14 +119,21 @@ public class Elevator
 	 * if no calls and no wishes direction = null
 	 * if no calls and no wishes in direction but calls and wishes in reverse direction direction = reverse
 	 */
-	private Movement calcNewDirection()
+	private void calcNewDirection()
 	{
-	/*	if (this.direction == DIR_STOP)
-			this.direction = DIR_UP;
-			*/
-		if (isWishInDir(this.direction))
+		this.direction = this.position == 0 ? Movement.UP : this.position == this.floors.getFloorCount()-1 ? Movement.DOWN : this.direction;
+		/*
+		this.direction         = this.direction == Movement.STOP ? Movement.UP        : this.direction;
+		Movement rDir          = this.direction == Movement.UP   ? Movement.DOWN      : Movement.UP;
+		CallDirection cCallDir = this.direction == Movement.UP   ? CallDirection.UP   : CallDirection.DOWN;
+		CallDirection rCallDir = this.direction == Movement.UP   ? CallDirection.DOWN : CallDirection.UP;
+		// wünsche in Fahrtrichtung -> Weiter in Fahrrichtung
+		// Rufe in Fahrtrichtung die in Fahrtrichtung wollen -> Weiter in Fahrtrichtung
+		if (this.floors.isCallInDir(this.position, this.direction, cCallDir) || isWishInDir(this.direction))
 			return this.direction;
-		if (this.floors.isCallInDir(this.position, this.direction))
+		// Rufe in Fahrtrichtung die in gegen Fahrtrichtung wollen
+		if (this.floors.isCallInDir(this.position, this.direction, rCallDir))
+			return this.direction;
 		if (isWishInDir(this.direction) || this.floors.isCallInDir(this.position, this.direction)){
 			System.out.println("Direction: " + this.direction + " because wish or call in dir");
 			return this.direction != 0 ? this.direction : 1;
@@ -137,6 +144,7 @@ public class Elevator
 		}
 		System.out.println("Direction: " + DIR_STOP + " because no wish or call at all");
 	return DIR_STOP;
+	*/
 	}
 	private boolean isWishInDir(Movement dir)
 	{
@@ -166,9 +174,9 @@ public class Elevator
 	{
 		return this.load;
 	}
-	public boolean overload()
+	public boolean isOverload()
 	{
-		return this.load > 10 ? true : false;
+		return this.load > 5 ? true : false;
 	}
 	public int getPosition()
 	{

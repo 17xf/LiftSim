@@ -34,7 +34,7 @@ public class Simulation
 	{
 		this.floors.setCall(pos, dir);
 	}
-	public boolean move(int dir)
+	public boolean move(Movement dir)
 	{
 		return this.elevator.move(dir);
 	}
@@ -78,7 +78,7 @@ public class Simulation
 				plstr += pas.getPosition() == fnr ? "(" + pas.getDestination() + ")" : "";
 
 			elvd  = this.elevator.isOpen()   ? " " : "#";
-			elvol = this.elevator.overload() ? "!" : " ";
+			elvol = this.elevator.isOverload() ? "!" : " ";
 			elstr = this.elevator.getPosition() == fnr ? elvol + "[" + elvd + "]" : "    ";
 			call  = this.floors.getCallState(fnr);
 			switch (call){
