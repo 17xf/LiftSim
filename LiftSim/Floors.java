@@ -18,8 +18,8 @@ public class Floors
 	{
 		if (dir == Movement.STOP) throw new IllegalArgumentException( "für dir sind nur Movement.{UP|DOWN} erlaubt" );
 		while (pos < this.floors.size() || pos >= 0){
-			Floor f = this.floors.get(pos);
-			if (f.isCallSet(callDir)) return true;
+			//Floor f = this.floors.get(pos);
+			if (this.floors.get(pos).isCallSet(callDir)) return true;
 			pos += dir == Movement.DOWN ? -1 : +1;
 		}
 		return false;
@@ -38,24 +38,24 @@ public class Floors
 	}
 	public void setCall(int pos, CallDirection dir, boolean prio)
 	{
-		Floor f = this.floors.get(pos);
+		//Floor f = this.floors.get(pos);
 
-		f.setCall(dir, prio);
+		this.floors.get(pos).setCall(dir, prio);
 	}
 	public boolean isCallPrio(int fpos, CallDirection dir)
 	{
-		Floor f = this.floors.get(fpos);
-		return f.isCallPrio(dir);
+		//Floor f = this.floors.get(fpos);
+		return this.floors.get(fpos).isCallPrio(dir);
 	}
 	public boolean isCallSet(int fpos, CallDirection dir)
 	{
-		Floor f = this.floors.get(fpos);
-		return f.isCallSet(dir);
+		//Floor f = this.floors.get(fpos);
+		return this.floors.get(fpos).isCallSet(dir);
 	}
 	public CallState getCallState(int fpos)
 	{
-		Floor f = this.floors.get(fpos);
-		return f.getCallState();
+		//Floor f = this.floors.get(fpos);
+		return this.floors.get(fpos).getCallState();
 	}
 	public int getFloorCount()
 	{
@@ -69,8 +69,8 @@ public class Floors
 	*/
 	public void delCall(int fpos, CallDirection dir)
 	{
-		Floor f = this.floors.get(fpos);
-		f.delCall(dir);
+		//Floor f = this.floors.get(fpos);
+		this.floors.get(fpos).delCall(dir);
 	}
 }
 

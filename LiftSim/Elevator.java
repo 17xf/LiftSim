@@ -53,8 +53,9 @@ public class Elevator
 	 * Ändert die Position des Liftes. 
 	 * @param dir Richtung -N Runter; +N Hoch
 	 */
-	public boolean move(Movement dir)
+	private boolean move()
 	{
+		Movement dir = this.direction;
 		if (this.open){
 			System.out.println("Elevator: Move: Not moved because door open");
 			return false;
@@ -100,7 +101,7 @@ public class Elevator
 			this.open = true;
 			System.out.println("Elevator: open door because call in dir here");
 			this.floors.delCall(this.position, fdir);
-			System.out.println("Elevator: Delete Call in dir here");
+			System.out.println("Elevator: Delete call in dir here");
 		}
 		if (this.wishes.contains(this.position)){
 			this.open = true;
@@ -110,9 +111,8 @@ public class Elevator
 		}
 		calcNewDirection();
 		System.out.println("Elevator: New Direction " + this.direction);
-		//this.direction = DIR_UP;
+		move();
 		System.out.println("Elevator: Move");
-		this.move(this.direction);
 	}
 	/**
 	 * if call exist in current direction return

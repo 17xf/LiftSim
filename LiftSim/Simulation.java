@@ -34,10 +34,11 @@ public class Simulation
 	{
 		this.floors.setCall(pos, dir, prio);
 	}
-	public boolean move(Movement dir)
+	/*public boolean move()
 	{
-		return this.elevator.move(dir);
+		return this.elevator.move();
 	}
+	*/
 	public void newRandPassenger()
 	{
 		this.passenger.add(new Passenger((int)(Math.random() * this.fcount), (int)(Math.random() * this.fcount), this.elevator, this.floors));
