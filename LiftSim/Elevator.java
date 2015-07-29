@@ -51,7 +51,7 @@ public class Elevator
 
 	/**
 	 * Ändert die Position des Liftes. 
-	 * @param dir Richtung -N Runter; +N Hoch
+	 * anhand von `this.direction`
 	 */
 	private boolean move()
 	{
@@ -90,6 +90,9 @@ public class Elevator
 	}
 	public void doAction()
 	{
+		/**
+		 * Falls dir Tür offen ist: schließen. Ende.
+		 */
 		if (this.open){
 			this.open = false;
 			System.out.println("Elevator: Door close");
